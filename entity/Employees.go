@@ -1,0 +1,18 @@
+package entity
+
+import (
+	"github.com/asaskevich/govalidator"
+	"gorm.io/gorm"
+)
+
+type Employees struct {
+	gorm.Model
+	Name         string  `valid:"stringlength(2|80)"`
+	Salary       float64 `valid:"range(15000|200000)"`
+	EmployeeCode string  `valid:"matches(^[A-Z][A-Z]-[0-9][0-9][0-9][0-9])"`
+}
+
+func (e Employees) Validate() error {
+	_, err := govalidator.ValidateStruct(e)
+	return err
+}
